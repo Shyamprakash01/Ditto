@@ -14,6 +14,8 @@
 		389927D02F83C75E00819820 /* DittoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389927CF2F83C75E00819820 /* DittoTests.swift */; };
 		389927DA2F83C75E00819820 /* DittoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389927D92F83C75E00819820 /* DittoUITests.swift */; };
 		389927DC2F83C75E00819820 /* DittoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389927DB2F83C75E00819820 /* DittoUITestsLaunchTests.swift */; };
+		389927E92F83D29D00819820 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389927E82F83D29D00819820 /* LoginView.swift */; };
+		389927EB2F83EC2400819820 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389927EA2F83EC2300819820 /* RegisterView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +46,8 @@
 		389927D52F83C75E00819820 /* DittoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DittoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		389927D92F83C75E00819820 /* DittoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DittoUITests.swift; sourceTree = "<group>"; };
 		389927DB2F83C75E00819820 /* DittoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DittoUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		389927E82F83D29D00819820 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		389927EA2F83EC2300819820 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +102,8 @@
 				389927C02F83C71C00819820 /* ContentView.swift */,
 				389927C22F83C75900819820 /* Assets.xcassets */,
 				389927C42F83C75900819820 /* Preview Content */,
+				389927E82F83D29D00819820 /* LoginView.swift */,
+				389927EA2F83EC2300819820 /* RegisterView.swift */,
 			);
 			path = Ditto;
 			sourceTree = "<group>";
@@ -257,6 +263,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				389927E92F83D29D00819820 /* LoginView.swift in Sources */,
+				389927EB2F83EC2400819820 /* RegisterView.swift in Sources */,
 				389927C12F83C71C00819820 /* ContentView.swift in Sources */,
 				389927BF2F83C71C00819820 /* DittoApp.swift in Sources */,
 			);

@@ -11,7 +11,9 @@ import SwiftUI
 struct DittoApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationStack {
+                LoginView()
+            }
         }
     }
 }
