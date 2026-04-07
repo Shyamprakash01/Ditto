@@ -60,9 +60,9 @@ struct WatchlistView: View {
                 }
             }
             // MARK: - Bottom Tab Bar Simulation
-            .safeAreaInset(edge: .bottom) {
-                CustomTabBar()
-            }
+//            .safeAreaInset(edge: .bottom) {
+//                CustomTabBar()
+//            }
         }
     }
 }
@@ -132,34 +132,34 @@ struct StockRow: View {
         .cornerRadius(16)
     }
 }
+//
+//struct CustomTabBar: View {
+//    var body: some View {
+//        HStack {
+//            TabBarItem(icon: "house", label: "Home")
+//            TabBarItem(icon: "eye", label: "Watchlist", isSelected: true)
+//            TabBarItem(icon: "chart.pie", label: "Portfolio")
+//            TabBarItem(icon: "doc.text", label: "Orders")
+//            TabBarItem(icon: "person", label: "Profile")
+//        }
+//        .padding(.top, 10)
+//        .background(Color.black)
+//    }
+//}
 
-struct CustomTabBar: View {
-    var body: some View {
-        HStack {
-            TabBarItem(icon: "house", label: "Home")
-            TabBarItem(icon: "eye", label: "Watchlist", isSelected: true)
-            TabBarItem(icon: "chart.pie", label: "Portfolio")
-            TabBarItem(icon: "doc.text", label: "Orders")
-            TabBarItem(icon: "person", label: "Profile")
-        }
-        .padding(.top, 10)
-        .background(Color.black)
-    }
-}
-
-struct TabBarItem: View {
-    let icon: String
-    let label: String
-    var isSelected: Bool = false
-    
-    var body: some View {
-        VStack(spacing: 4) {
-            Image(systemName: icon)
-                .font(.system(size: 20))
-            Text(label)
-                .font(.system(size: 10))
-        }
-        .frame(maxWidth: .infinity)
-        .foregroundColor(isSelected ? .blue : .gray)
-    }
-}
+//struct TabBarItem: View {
+//    let icon: String
+//    let label: String
+//    var isSelected: Bool = false
+//    
+//    var body: some View {
+//        VStack(spacing: 4) {
+//            Image(systemName: icon)
+//                .font(.system(size: 20))
+//            Text(label)
+//                .font(.system(size: 10))
+//        }
+//        .frame(maxWidth: .infinity)
+//        .foregroundColor(isSelected ? .blue : .gray)
+//    }
+//}
