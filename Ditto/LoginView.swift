@@ -99,7 +99,7 @@ struct LoginView: View {
                 }
                 
                 // Login as User Button
-                Button(action: {}) {
+                NavigationLink(destination: HomeView()) {
                     HStack {
                         Image(systemName: "bolt.fill")
                         Text("Login as User")

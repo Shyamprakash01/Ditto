@@ -16,6 +16,12 @@
 		389927DC2F83C75E00819820 /* DittoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389927DB2F83C75E00819820 /* DittoUITestsLaunchTests.swift */; };
 		389927E92F83D29D00819820 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389927E82F83D29D00819820 /* LoginView.swift */; };
 		389927EB2F83EC2400819820 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389927EA2F83EC2300819820 /* RegisterView.swift */; };
+		389927EF2F84C95E00819820 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389927EC2F84C94800819820 /* HomeView.swift */; };
+		389927F12F84D5AF00819820 /* WatchlistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389927F02F84D5AF00819820 /* WatchlistView.swift */; };
+		389927F32F84E33700819820 /* PortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389927F22F84E33700819820 /* PortfolioView.swift */; };
+		389927F52F84E66C00819820 /* OrdersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389927F42F84E66C00819820 /* OrdersView.swift */; };
+		389927F72F84E9B500819820 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389927F62F84E9B500819820 /* ProfileView.swift */; };
+		389927F92F850C5E00819820 /* TopHoldingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389927F82F850C5E00819820 /* TopHoldingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +54,12 @@
 		389927DB2F83C75E00819820 /* DittoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DittoUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		389927E82F83D29D00819820 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		389927EA2F83EC2300819820 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		389927EC2F84C94800819820 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		389927F02F84D5AF00819820 /* WatchlistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistView.swift; sourceTree = "<group>"; };
+		389927F22F84E33700819820 /* PortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioView.swift; sourceTree = "<group>"; };
+		389927F42F84E66C00819820 /* OrdersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersView.swift; sourceTree = "<group>"; };
+		389927F62F84E9B500819820 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		389927F82F850C5E00819820 /* TopHoldingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopHoldingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,12 +110,19 @@
 		389927BD2F83C71C00819820 /* Ditto */ = {
 			isa = PBXGroup;
 			children = (
+				389927F02F84D5AF00819820 /* WatchlistView.swift */,
+				389927F22F84E33700819820 /* PortfolioView.swift */,
 				389927BE2F83C71C00819820 /* DittoApp.swift */,
+				389927EC2F84C94800819820 /* HomeView.swift */,
 				389927C02F83C71C00819820 /* ContentView.swift */,
 				389927C22F83C75900819820 /* Assets.xcassets */,
+				389927C52F83C75900819820 /* Preview Assets.xcassets */,
 				389927C42F83C75900819820 /* Preview Content */,
 				389927E82F83D29D00819820 /* LoginView.swift */,
 				389927EA2F83EC2300819820 /* RegisterView.swift */,
+				389927F42F84E66C00819820 /* OrdersView.swift */,
+				389927F62F84E9B500819820 /* ProfileView.swift */,
+				389927F82F850C5E00819820 /* TopHoldingsView.swift */,
 			);
 			path = Ditto;
 			sourceTree = "<group>";
@@ -111,7 +130,6 @@
 		389927C42F83C75900819820 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				389927C52F83C75900819820 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -264,8 +282,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				389927E92F83D29D00819820 /* LoginView.swift in Sources */,
+				389927F72F84E9B500819820 /* ProfileView.swift in Sources */,
+				389927F92F850C5E00819820 /* TopHoldingsView.swift in Sources */,
 				389927EB2F83EC2400819820 /* RegisterView.swift in Sources */,
+				389927F32F84E33700819820 /* PortfolioView.swift in Sources */,
 				389927C12F83C71C00819820 /* ContentView.swift in Sources */,
+				389927EF2F84C95E00819820 /* HomeView.swift in Sources */,
+				389927F52F84E66C00819820 /* OrdersView.swift in Sources */,
+				389927F12F84D5AF00819820 /* WatchlistView.swift in Sources */,
 				389927BF2F83C71C00819820 /* DittoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
