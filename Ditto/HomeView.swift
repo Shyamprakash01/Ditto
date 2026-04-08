@@ -146,7 +146,9 @@ struct HomeContentView: View {
                         actionItem(icon: "magnifyingglass", title: "Search")
                         actionItem(icon: "plus", title: "Buy")
                         actionItem(icon: "chart.line.uptrend.xyaxis", title: "Markets")
-                        actionItem(icon: "eye", title: "Watchlist")
+//                        actionItem(icon: "eye", title: "Watchlist")
+                     
+                        actionItem(icon: "wallet.pass", title: "Wallet")
                     }
                     
                     // SECTOR ALLOCATION
