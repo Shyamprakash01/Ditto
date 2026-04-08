@@ -1,40 +1,42 @@
-//
-//  SettingsView.swift
-//  Ditto
-//
-//  Created by Shanmugam N on 08/04/26.
-//
-
 import SwiftUI
 
 struct SettingsView: View {
     
-    @Environment(\.dismiss) var dismiss   // ✅ Back navigation
-    
+    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var appState: AppState // ✅ REQUIRED for logout
     @State private var showLogoutAlert = false
-    
+    @Environment(\.presentationMode) var presentationMode
     var body: some View {
         ZStack {
-            
             Color.black.ignoresSafeArea()
             
             ScrollView {
                 VStack(spacing: 20) {
                     
-                    // ACCOUNT
+                    // ACCOUNT SECTION
                     section(title: "ACCOUNT") {
-                        row(icon: "person", title: "Edit Profile")
+                        NavigationLink(destination: EditProfileView()) {
+                            row(icon: "person", title: "Edit Profile")
+                        }
                         divider()
-                        row(icon: "shield", title: "Security")
+                        NavigationLink(destination: SecurityView()) {
+                            row(icon: "shield", title: "Security")
+                        }
                         divider()
-                        row(icon: "bell", title: "Notifications")
+                        NavigationLink(destination: NotificationsView()) {
+                            row(icon: "bell", title: "Notifications")
+                        }
                     }
                     
                     // PREFERENCES
                     section(title: "PREFERENCES") {
-                        row(icon: "moon", title: "Appearance")
+                        NavigationLink(destination: AppearanceView()) {
+                            row(icon: "moon", title: "Appearance")
+                        }
                         divider()
-                        row(icon: "globe", title: "Language")
+                        NavigationLink(destination: LanguageView()) {
+                            row(icon: "globe", title: "Language")
+                        }
                         divider()
                         row(icon: "dollarsign", title: "Currency")
                     }
@@ -50,7 +52,7 @@ struct SettingsView: View {
                         row(icon: "shield", title: "Privacy Policy")
                     }
                     
-                    // LOGOUT
+                    // LOGOUT BUTTON
                     Button {
                         showLogoutAlert = true
                     } label: {
@@ -73,24 +75,22 @@ struct SettingsView: View {
                 .padding()
             }
         }
-        
-        // MARK: - NAV BAR
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         
-        // DARK NAV FIX
+        // NAV BAR STYLE
         .toolbarBackground(Color.black, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
         .toolbarColorScheme(.dark, for: .navigationBar)
         
-        // BACK BUTTON → PROFILE
+        // CUSTOM BACK BUTTON
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
-                    dismiss()
+                    dismiss() // ✅ Only goes back to Profile
                 } label: {
-                    HStack {
+                    HStack(spacing: 5) {
                         Image(systemName: "chevron.left")
                         Text("Back")
                     }
@@ -99,21 +99,21 @@ struct SettingsView: View {
             }
         }
         
-        // LOGOUT ALERT
         .alert("Logout", isPresented: $showLogoutAlert) {
-            
             Button("Cancel", role: .cancel) { }
             
             Button("Logout", role: .destructive) {
-                dismiss()   // ✅ Also goes back to Profile (clean)
+                popToRoot()
             }
-            
         } message: {
             Text("Are you sure you want to logout?")
         }
     }
+    func popToRoot() {
+        UIApplication.shared.windows.first?.rootViewController?.dismiss(animated: true)
+    }
+    // MARK: - UI HELPERS
     
-    // MARK: - SECTION
     func section<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
@@ -128,10 +128,8 @@ struct SettingsView: View {
         }
     }
     
-    // MARK: - ROW
     func row(icon: String, title: String) -> some View {
         HStack(spacing: 15) {
-            
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color.blue.opacity(0.2))
@@ -152,12 +150,9 @@ struct SettingsView: View {
         .padding()
     }
     
-    // MARK: - DIVIDER
     func divider() -> some View {
         Divider()
             .background(Color.gray.opacity(0.3))
+            .padding(.horizontal)
     }
 }
-//#Preview {
-//    SettingsView()
-//}

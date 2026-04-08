@@ -1,89 +1,265 @@
+//
+//  WatchlistView.swift
+//  Ditto
+//
+//  Created by Shyamprakash A on 07/04/26.
+//
+
 import SwiftUI
 
-struct Stock: Identifiable {
+//////////////////////////////////////////////////////////////
+// MARK: - MODEL
+//////////////////////////////////////////////////////////////
+
+struct Stock: Identifiable, Codable, Equatable {
     let id = UUID()
     let symbol: String
     let name: String
     let price: Double
-    let change: Double
+    let change: String = "+1.25%" // Mock data for UI
 }
 
-struct WatchlistView: View {
-    // Sample Data
-    let categories = ["Tech Favorites", "Dividend", "Growth"]
-    let stocks = [
-        Stock(symbol: "AAPL", name: "Apple Inc.", price: 189.84, change: 1.25),
-        Stock(symbol: "MSFT", name: "Microsoft Corp.", price: 378.91, change: -0.32),
-        Stock(symbol: "GOOGL", name: "Alphabet Inc.", price: 141.80, change: 2.49),
-        Stock(symbol: "NVDA", name: "NVIDIA Corp.", price: 495.22, change: 2.55)
+//////////////////////////////////////////////////////////////
+// MARK: - VIEW MODEL
+//////////////////////////////////////////////////////////////
+
+class WatchlistViewModel: ObservableObject {
+    @Published var watchlists: [String: [Stock]] = [
+        "Tech Favorites": [],
+        "Dividend": [],
+        "Growth": []
     ]
     
+    @Published var selected = "Tech Favorites"
+    @Published var allStocks: [Stock] = [
+        Stock(symbol: "AAPL", name: "Apple Inc.", price: 189.84),
+        Stock(symbol: "MSFT", name: "Microsoft Corp.", price: 378.91),
+        Stock(symbol: "GOOGL", name: "Alphabet Inc.", price: 141.80),
+        Stock(symbol: "NVDA", name: "NVIDIA Corp.", price: 495.22),
+        Stock(symbol: "TSLA", name: "Tesla Inc.", price: 248.50)
+    ]
+    
+    @Published var filtered: [Stock] = []
+    
+    init() {
+        filtered = allStocks
+    }
+    
+    func toggle(_ stock: Stock) {
+        var list = watchlists[selected] ?? []
+        if list.contains(stock) {
+            list.removeAll { $0 == stock }
+        } else {
+            list.append(stock)
+        }
+        watchlists[selected] = list
+    }
+    
+    func isAdded(_ stock: Stock) -> Bool {
+        watchlists[selected]?.contains(stock) ?? false
+    }
+    
+    func currentStocks() -> [Stock] {
+        watchlists[selected] ?? []
+    }
+    
+    func search(_ text: String) {
+        if text.isEmpty {
+            filtered = allStocks
+        } else {
+            filtered = allStocks.filter {
+                $0.symbol.lowercased().contains(text.lowercased()) ||
+                $0.name.lowercased().contains(text.lowercased())
+            }
+        }
+    }
+    
+    func addWatchlist() {
+        let name = "Watchlist \(watchlists.count + 1)"
+        watchlists[name] = []
+        selected = name
+    }
+    
+    func deleteWatchlist() {
+        guard watchlists.count > 1 else { return }
+        watchlists.removeValue(forKey: selected)
+        selected = watchlists.keys.first ?? ""
+    }
+    
+    func renameWatchlist(newName: String) {
+        let trimmedName = newName.trimmingCharacters(in: .whitespaces)
+        guard !trimmedName.isEmpty, trimmedName != selected else { return }
+        let stocks = watchlists[selected] ?? []
+        watchlists.removeValue(forKey: selected)
+        watchlists[trimmedName] = stocks
+        selected = trimmedName
+    }
+}
+
+//////////////////////////////////////////////////////////////
+// MARK: - MAIN VIEW
+//////////////////////////////////////////////////////////////
+
+struct WatchlistView: View {
+    @StateObject var vm = WatchlistViewModel()
+    @State private var showSearch = false
+    @State private var showRename = false
+    @State private var newName = ""
+    
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 Color.black.ignoresSafeArea()
                 
-                VStack(alignment: .leading, spacing: 20) {
+                VStack(alignment: .leading, spacing: 10) {
                     
-                    // MARK: - Header
+                    // HEADER
                     HStack {
                         Text("Watchlist")
                             .font(.system(size: 34, weight: .bold))
                             .foregroundColor(.white)
+                        
                         Spacer()
-                        Image(systemName: "magnifyingglass")
-                        Image(systemName: "ellipsis")
+                        
+                        Button { showSearch = true } label: {
+                            Image(systemName: "magnifyingglass")
+                                .font(.title3)
+                                .foregroundColor(.white)
+                        }
+                        
+                        // Action Menu (Rename/Delete)
+                        Menu {
+                            Button {
+                                newName = vm.selected
+                                showRename = true
+                            } label: {
+                                Label("Rename", systemImage: "pencil")
+                            }
+                            
+                            Button(role: .destructive) {
+                                vm.deleteWatchlist()
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                        } label: {
+                            Image(systemName: "ellipsis")
+                                .font(.title3)
+                                .foregroundColor(.white)
+                                .padding(.leading, 10)
+                        }
                     }
-                    .foregroundColor(.white)
                     .padding(.horizontal)
+                    .padding(.top, 10)
                     
-                    // MARK: - Categories
+                    // WATCHLIST CARDS
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 12) {
-                            ForEach(categories, id: \.self) { category in
-                                CategoryCard(title: category, isActive: category == "Tech Favorites")
+                            // Sort keys so they don't jump around
+                            ForEach(vm.watchlists.keys.sorted(), id: \.self) { key in
+                                WatchlistCard(title: key, isSelected: vm.selected == key)
+                                    .onTapGesture {
+                                        withAnimation(.spring()) { vm.selected = key }
+                                    }
+                            }
+                            
+                            // Add List Button
+                            Button { vm.addWatchlist() } label: {
+                                RoundedRectangle(cornerRadius: 24)
+                                    .stroke(Color.blue.opacity(0.5), style: StrokeStyle(lineWidth: 1, dash: [5]))
+                                    .frame(width: 140, height: 160)
+                                    .overlay(Image(systemName: "plus").foregroundColor(.blue))
                             }
                         }
                         .padding(.horizontal)
                     }
-                    .frame(height: 160)
+                    .padding(.vertical, 10)
                     
-                    // MARK: - Stock List
-                    ScrollView {
-                        VStack(spacing: 12) {
-                            ForEach(stocks) { stock in
-                                StockRow(stock: stock)
+                    // STOCK LIST AREA
+                    if vm.currentStocks().isEmpty {
+                        EmptyWatchlistState(showSearch: $showSearch)
+                    } else {
+                        ScrollView {
+                            VStack(spacing: 12) {
+                                ForEach(vm.currentStocks()) { stock in
+                                    StockRow(stock: stock)
+                                }
                             }
+                            .padding(.horizontal)
                         }
-                        .padding(.horizontal)
                     }
                 }
             }
-            // MARK: - Bottom Tab Bar Simulation
-//            .safeAreaInset(edge: .bottom) {
-//                CustomTabBar()
-//            }
+            .sheet(isPresented: $showSearch) {
+                SearchView(vm: vm)
+            }
+            .alert("Rename Watchlist", isPresented: $showRename) {
+                TextField("New Name", text: $newName)
+                Button("Cancel", role: .cancel) { }
+                Button("Save") { vm.renameWatchlist(newName: newName) }
+            }
         }
     }
 }
 
-// MARK: - Supporting Views
+//////////////////////////////////////////////////////////////
+// MARK: - SUBVIEWS
+//////////////////////////////////////////////////////////////
 
-struct CategoryCard: View {
+struct WatchlistCard: View {
     let title: String
-    let isActive: Bool
+    let isSelected: Bool
     
     var body: some View {
         VStack(alignment: .leading) {
             Text(title)
-                .font(.system(size: 16, weight: .semibold))
+                .font(.headline)
                 .foregroundColor(.white)
-                .padding(16)
+                .padding(20)
             Spacer()
         }
-        .frame(width: 140, height: 160, alignment: .topLeading)
-        .background(isActive ? Color.blue : Color(white: 0.15))
-        .cornerRadius(20)
+        .frame(width: 140, height: 160)
+        .background(isSelected ? Color.blue : Color(white: 0.12))
+        .cornerRadius(24)
+    }
+}
+
+struct EmptyWatchlistState: View {
+    @Binding var showSearch: Bool
+    
+    var body: some View {
+        VStack(spacing: 15) {
+            Spacer()
+            Image(systemName: "eye")
+                .font(.system(size: 50))
+                .foregroundColor(.gray.opacity(0.5))
+            
+            Text("No stocks yet")
+                .font(.title3.bold())
+                .foregroundColor(.white)
+            
+            Text("Search and add stocks to this watchlist")
+                .font(.subheadline)
+                .foregroundColor(.gray)
+                .multilineTextAlignment(.center)
+            
+            Button {
+                showSearch = true
+            } label: {
+                HStack {
+                    Image(systemName: "plus")
+                    Text("Add Stocks")
+                }
+                .fontWeight(.bold)
+                .padding(.horizontal, 25)
+                .padding(.vertical, 12)
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(12)
+            }
+            .padding(.top, 10)
+            Spacer()
+        }
+        .frame(maxWidth: .infinity)
     }
 }
 
@@ -92,74 +268,91 @@ struct StockRow: View {
     
     var body: some View {
         HStack(spacing: 15) {
-            // Icon Placeholder
+            // Leading Icon
             ZStack {
                 RoundedRectangle(cornerRadius: 12)
                     .fill(Color(white: 0.15))
-                    .frame(width: 50, height: 50)
+                    .frame(width: 48, height: 48)
                 Text(String(stock.symbol.prefix(1)))
                     .foregroundColor(.white)
-                    .fontWeight(.bold)
+                    .bold()
             }
             
-            VStack(alignment: .leading, spacing: 4) {
+            // Name and Symbol
+            VStack(alignment: .leading, spacing: 2) {
                 Text(stock.symbol)
-                    .font(.system(size: 18, weight: .bold))
+                    .font(.headline)
                     .foregroundColor(.white)
                 Text(stock.name)
-                    .font(.system(size: 14))
+                    .font(.caption)
                     .foregroundColor(.gray)
             }
             
             Spacer()
             
+            // Price and Change
             VStack(alignment: .trailing, spacing: 4) {
-                Text("$\(String(format: "%.2f", stock.price))")
-                    .font(.system(size: 18, weight: .bold))
+                Text("$\(stock.price, specifier: "%.2f")")
+                    .font(.headline)
                     .foregroundColor(.white)
                 
-                Text("\(stock.change > 0 ? "▲" : "▼") \(String(format: "%.2f", abs(stock.change)))%")
-                    .font(.system(size: 12, weight: .bold))
+                Text(stock.change)
+                    .font(.caption.bold())
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .background(stock.change > 0 ? Color.green.opacity(0.2) : Color.red.opacity(0.2))
-                    .foregroundColor(stock.change > 0 ? .green : .red)
-                    .cornerRadius(4)
+                    .background(Color.green.opacity(0.2))
+                    .foregroundColor(.green)
+                    .cornerRadius(6)
             }
         }
         .padding()
-        .background(Color(white: 0.1))
-        .cornerRadius(16)
+        .background(Color(white: 0.08))
+        .cornerRadius(18)
     }
 }
-//
-//struct CustomTabBar: View {
-//    var body: some View {
-//        HStack {
-//            TabBarItem(icon: "house", label: "Home")
-//            TabBarItem(icon: "eye", label: "Watchlist", isSelected: true)
-//            TabBarItem(icon: "chart.pie", label: "Portfolio")
-//            TabBarItem(icon: "doc.text", label: "Orders")
-//            TabBarItem(icon: "person", label: "Profile")
-//        }
-//        .padding(.top, 10)
-//        .background(Color.black)
-//    }
-//}
 
-//struct TabBarItem: View {
-//    let icon: String
-//    let label: String
-//    var isSelected: Bool = false
-//    
-//    var body: some View {
-//        VStack(spacing: 4) {
-//            Image(systemName: icon)
-//                .font(.system(size: 20))
-//            Text(label)
-//                .font(.system(size: 10))
-//        }
-//        .frame(maxWidth: .infinity)
-//        .foregroundColor(isSelected ? .blue : .gray)
-//    }
-//}
+struct SearchView: View {
+    @ObservedObject var vm: WatchlistViewModel
+    @Environment(\.dismiss) var dismiss
+    @State private var text = ""
+    
+    var body: some View {
+        NavigationStack {
+            ZStack {
+                Color.black.ignoresSafeArea()
+                VStack {
+                    List(vm.filtered) { stock in
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(stock.symbol).foregroundColor(.white).bold()
+                                Text(stock.name).foregroundColor(.gray).font(.caption)
+                            }
+                            Spacer()
+                            Button {
+                                vm.toggle(stock)
+                            } label: {
+                                Image(systemName: vm.isAdded(stock) ? "checkmark.circle.fill" : "plus.circle")
+                                    .foregroundColor(vm.isAdded(stock) ? .green : .blue)
+                                    .font(.title2)
+                            }
+                        }
+                        .listRowBackground(Color.white.opacity(0.05))
+                    }
+                    .scrollContentBackground(.hidden)
+                }
+            }
+            .navigationTitle("Add Stocks")
+            .navigationBarTitleDisplayMode(.inline)
+            .searchable(text: $text, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search symbol or name")
+            .onChange(of: text) { _, newValue in
+                vm.search(newValue)
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") { dismiss() }
+                }
+            }
+        }
+        .preferredColorScheme(.dark)
+    }
+}
