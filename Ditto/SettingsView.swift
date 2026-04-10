@@ -5,7 +5,6 @@ struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var appState: AppState // ✅ REQUIRED for logout
     @State private var showLogoutAlert = false
-    @Environment(\.presentationMode) var presentationMode
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
@@ -103,15 +102,13 @@ struct SettingsView: View {
             Button("Cancel", role: .cancel) { }
             
             Button("Logout", role: .destructive) {
-                popToRoot()
+                appState.isLoggedIn = false
             }
         } message: {
             Text("Are you sure you want to logout?")
         }
     }
-    func popToRoot() {
-        UIApplication.shared.windows.first?.rootViewController?.dismiss(animated: true)
-    }
+
     // MARK: - UI HELPERS
     
     func section<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {

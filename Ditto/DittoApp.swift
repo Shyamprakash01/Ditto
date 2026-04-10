@@ -10,17 +10,12 @@ import SwiftUI
 struct DittoApp: App {
     
     @StateObject var appState = AppState()
-    
-    var body: some Scene {
-        WindowGroup {
-            NavigationStack {
-                if appState.isLoggedIn {
-                    HomeView()
-                } else {
-                    LoginView()
-                }
+        
+        var body: some Scene {
+            WindowGroup {
+                RootView()
+                    .environmentObject(appState)
             }
-            .environmentObject(appState)
+            
         }
-    }
 }

@@ -5,7 +5,7 @@ struct LoginView: View {
     @State private var userId = ""
     @State private var password = ""
     @State private var isSecure = true
-    
+    @EnvironmentObject var appState: AppState
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
@@ -99,7 +99,9 @@ struct LoginView: View {
                 }
                 
                 // Login as User Button
-                NavigationLink(destination: HomeView()) {
+                Button {
+                    appState.isLoggedIn = true   // ✅ triggers RootView switch
+                } label: {
                     HStack {
                         Image(systemName: "bolt.fill")
                         Text("Login as User")

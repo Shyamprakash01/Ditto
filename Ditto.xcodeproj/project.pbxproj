@@ -29,6 +29,8 @@
 		389928092F866EC800819820 /* AppearanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389928082F866EC800819820 /* AppearanceView.swift */; };
 		3899280B2F866EFB00819820 /* LanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3899280A2F866EFB00819820 /* LanguageView.swift */; };
 		3899280F2F8683C500819820 /* Appstate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3899280E2F8683C500819820 /* Appstate.swift */; };
+		389928112F8779F900819820 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389928102F8779F900819820 /* RootView.swift */; };
+		389928132F87873100819820 /* FundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389928122F87873100819820 /* FundsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +76,8 @@
 		389928082F866EC800819820 /* AppearanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceView.swift; sourceTree = "<group>"; };
 		3899280A2F866EFB00819820 /* LanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageView.swift; sourceTree = "<group>"; };
 		3899280E2F8683C500819820 /* Appstate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appstate.swift; sourceTree = "<group>"; };
+		389928102F8779F900819820 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		389928122F87873100819820 /* FundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +148,8 @@
 				389928082F866EC800819820 /* AppearanceView.swift */,
 				3899280A2F866EFB00819820 /* LanguageView.swift */,
 				3899280E2F8683C500819820 /* Appstate.swift */,
+				389928102F8779F900819820 /* RootView.swift */,
+				389928122F87873100819820 /* FundsView.swift */,
 			);
 			path = Ditto;
 			sourceTree = "<group>";
@@ -316,6 +322,8 @@
 				389927F12F84D5AF00819820 /* WatchlistView.swift in Sources */,
 				3899280B2F866EFB00819820 /* LanguageView.swift in Sources */,
 				389927FD2F86516300819820 /* SettingsView.swift in Sources */,
+				389928132F87873100819820 /* FundsView.swift in Sources */,
+				389928112F8779F900819820 /* RootView.swift in Sources */,
 				389927BF2F83C71C00819820 /* DittoApp.swift in Sources */,
 				389928072F866E9E00819820 /* NotificationsView.swift in Sources */,
 				3899280F2F8683C500819820 /* Appstate.swift in Sources */,
